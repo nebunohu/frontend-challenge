@@ -18,7 +18,6 @@ const CatsList: FC = () => {
     }
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        console.log('intersection');
         setPage(page + 1)
       }
     });
@@ -32,6 +31,7 @@ const CatsList: FC = () => {
 
   return (
     <div className={`${styles.wrapper}`}>
+      <div className={`${styles.contentWrapper}`}>
         {cats.map((cat: any, index: number) => {
           if (index === cats.length - 1) {
             return <div key={cat.id + Math.random()} ref={lastCatCardElementRef}><CatCard cat={cat}  /></div>
@@ -40,7 +40,8 @@ const CatsList: FC = () => {
           }
           
         })}
-        {getCatsRequest && <div>Загружаем еще котиков</div>}
+      </div>
+      {getCatsRequest && <div className={`${styles.preloader}`}>...загружаем еще котиков...</div>}
     </div>
   );
 };
