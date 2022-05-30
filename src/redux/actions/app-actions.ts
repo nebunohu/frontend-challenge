@@ -42,10 +42,10 @@ export const getUsersRequestFailed = (): TGetCatsRequestFailed => {
   };
 };
 
-export const getCatsThunk = () => async (dispatch: AppDispatch) => {
+export const getCatsThunk = (page: number) => async (dispatch: AppDispatch) => {
   dispatch(getUsersRequest());
   try {
-    const cats = await getRequest(`${API_BASE_URL}?limit=20`, {'x-api-key': API_KEY});
+    const cats = await getRequest(`${API_BASE_URL}?limit=20&page=${page}`, {'x-api-key': API_KEY});
     dispatch(getUsersRequestSuccess(cats));
   } catch (e) {
     dispatch(getUsersRequestFailed());
