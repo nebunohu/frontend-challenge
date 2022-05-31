@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import styles from './cat-card.module.css';
 
@@ -43,7 +43,7 @@ const CatCard: FC<TCatCardProps> = ({ cat }) => {
       );
       // const body = await res.json();
       element.classList.add(styles.clicked);
-      dispatch(getFavouriteCatsThunk());
+      // dispatch(getFavouriteCatsThunk(page));
     } catch (error) {
 
     }
@@ -62,7 +62,7 @@ const CatCard: FC<TCatCardProps> = ({ cat }) => {
       );
       // const body = await res.json();
       element.classList.remove(styles.clicked);
-      dispatch(getFavouriteCatsThunk());
+      // dispatch(getFavouriteCatsThunk(page));
     } catch (error) {
       console.log(error);
     }

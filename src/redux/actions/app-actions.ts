@@ -102,11 +102,11 @@ export const getCatsThunk = (page: number) => async (dispatch: AppDispatch) => {
   }
 };
 
-export const getFavouriteCatsThunk = () => async (dispatch: AppDispatch) => {
+export const getFavouriteCatsThunk = (page: number) => async (dispatch: AppDispatch) => {
   dispatch(getFavouriteCatsRequest());
   try {
     const favourites = await getRequest(
-      `${API_BASE_URL}/favourites/?limit=20&page=${0}&sub_id=nebunohu`,
+      `${API_BASE_URL}/favourites/?limit=20&page=${page}&sub_id=nebunohu`,
       {
         'x-api-key': API_KEY
       }

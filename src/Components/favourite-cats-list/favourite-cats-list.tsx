@@ -7,12 +7,12 @@ import styles from './favourite-cats-list.module.css';
 
 const FavouriteCatsList: FC = () => {
   const dispatch = useAppDispatch();
-  const { getCatsRequest, favourites } = useAppSelector((store) => store.app);
+  const { getFavoritesCatsRequest, favourites } = useAppSelector((store) => store.app);
   const [page, setPage] = useState(0);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastCatCardElementRef = useCallback((node: any) => {
-    if (getCatsRequest || favourites.length < 20) return;
+    if (getFavoritesCatsRequest) return;
     if (observer.current) {
       observer.current.disconnect();
     }
@@ -23,25 +23,25 @@ const FavouriteCatsList: FC = () => {
     });
     if (node) observer.current.observe(node);
 
-  }, [getCatsRequest, page])
+  }, [getFavoritesCatsRequest, page])
 
   useEffect(() => {
-    dispatch(getFavouriteCatsThunk());
-  }, [dispatch]);
+    dispatch(getFavouriteCatsThunk(page));
+  }, [dispatch, page]);
 
   return (
     <div className={`${styles.wrapper}`}>
       <div className={`${styles.contentWrapper}`}>
         {favourites.map((cat: any, index: number) => {
           if (index === favourites.length - 1) {
-            return <div key={cat.id + Math.random()} ref={lastCatCardElementRef}><CatCard cat={cat} /></div>
+            return <div key={`${cat.id}_${index}`} ref={lastCatCardElementRef}><CatCard cat={cat} /></div>
           } else {
-            return <CatCard cat={cat} key={cat.id + Math.random()} />
+            return <CatCard cat={cat} key={`${cat.id}_${index}`} />
           }
           
         })}
       </div>
-      {getCatsRequest && <div className={`${styles.preloader}`}>...загружаем еще котиков...</div>}
+      {getFavoritesCatsRequest && <div className={`${styles.preloader}`}>...загружаем еще котиков...</div>}
     </div>
   );
 };

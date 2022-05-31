@@ -37,9 +37,9 @@ const CatsList: FC = () => {
       <div className={`${styles.contentWrapper}`}>
         {cats.map((cat: any, index: number) => {
           if (index === cats.length - 1) {
-            return <div key={cat.id} ref={lastCatCardElementRef}><CatCard cat={cat}  /></div>
+            return <div key={cat.id + index} ref={lastCatCardElementRef}><CatCard cat={cat}  /></div>
           } else {
-            return <CatCard cat={cat} key={cat.id} />
+            return <CatCard cat={cat} key={cat.id + index} />
           }
           
         })}
