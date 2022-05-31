@@ -1,18 +1,18 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { clearCatsList, getCatsThunk } from '../../redux/actions/app-actions';
+import { getFavouriteCatsThunk } from '../../redux/actions/app-actions';
 import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import CatCard from '../cat-card/cat-card';
 
-import styles from './cats-list.module.css';
+import styles from './favourite-cats-list.module.css';
 
-const CatsList: FC = () => {
+const FavouriteCatsList: FC = () => {
   const dispatch = useAppDispatch();
-  const { cats, getCatsRequest } = useAppSelector((store) => store.app);
+  const { getCatsRequest, favourites } = useAppSelector((store) => store.app);
   const [page, setPage] = useState(0);
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastCatCardElementRef = useCallback((node: any) => {
-    if (getCatsRequest) return;
+    if (getCatsRequest || favourites.length < 20) return;
     if (observer.current) {
       observer.current.disconnect();
     }
@@ -26,20 +26,17 @@ const CatsList: FC = () => {
   }, [getCatsRequest, page])
 
   useEffect(() => {
-    dispatch(getCatsThunk(page));
-    return () => {
-      dispatch(clearCatsList());
-    }
-  }, [dispatch, page]);
+    dispatch(getFavouriteCatsThunk());
+  }, [dispatch]);
 
   return (
     <div className={`${styles.wrapper}`}>
       <div className={`${styles.contentWrapper}`}>
-        {cats.map((cat: any, index: number) => {
-          if (index === cats.length - 1) {
-            return <div key={cat.id} ref={lastCatCardElementRef}><CatCard cat={cat}  /></div>
+        {favourites.map((cat: any, index: number) => {
+          if (index === favourites.length - 1) {
+            return <div key={cat.id + Math.random()} ref={lastCatCardElementRef}><CatCard cat={cat} /></div>
           } else {
-            return <CatCard cat={cat} key={cat.id} />
+            return <CatCard cat={cat} key={cat.id + Math.random()} />
           }
           
         })}
@@ -49,4 +46,4 @@ const CatsList: FC = () => {
   );
 };
 
-export default CatsList;
+export default FavouriteCatsList;

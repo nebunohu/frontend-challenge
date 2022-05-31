@@ -17,3 +17,19 @@
   width: 100%;
   height: 100%;
 }
+
+.like {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-image: url('../../images/like.svg');
+  cursor: pointer;
+}
+
+.like.clicked {
+  background-image: url('../../images/like_clicked.svg');
+}
+
+.like:hover {
+  background-image: url('../../images/like_hovered.svg');
+}
